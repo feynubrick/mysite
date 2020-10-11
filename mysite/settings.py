@@ -10,17 +10,21 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(verbose=True, dotenv_path=BASE_DIR/'.env')
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'o9@d^m_x)yai$lbxke@9z$ujdh+4v7faeno4doh4$s88hr2a(-'
+# SECRET_KEY = 'o9@d^m_x)yai$lbxke@9z$ujdh+4v7faeno4doh4$s88hr2a(-'
+SECRET_KEY = os.getenv('MYSITE_SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -73,10 +77,21 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+DB_HOST = os.getenv('MYSITE_DB_HOST', '')
+DB_PORT = os.getenv('MYSITE_DB_PORT', '')
+DB_USER = os.getenv('MYSITE_DB_USER', '')
+DB_PASSWORD = os.getenv('MYSITE_DB_PASSWORD', '')
+DB_NAME = os.getenv('MYSITE_DB_NAME', '')
+DB_ENGINE = os.getenv('MYSITE_DB_ENGINE', '')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
+        'USER': DB_USER,
+        'PASSWORD': DB_PASSWORD,
+        'ENGINE': DB_ENGINE,
+        'NAME': DB_NAME,
     }
 }
 
